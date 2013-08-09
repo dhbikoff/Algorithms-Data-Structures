@@ -10,53 +10,58 @@
 #include "shellsort.h"
 
 int sorted(int arr[], int len);
-void test(void *(sort)(int[],int));
+void test(void *(sort)(int[],int), char *name, 
+          int counter, int range, int size);
 
-void* fn[] = {hsort, isort, msort, qusort, rsort, ssort, shsort};
+void* fn[] = {qusort, msort, rsort, hsort, ssort, isort, shsort};
+char* names[] = {"quicksort", "mergesort", "radixsort", "heapsort",
+                 "selectionsort", "insertionsort", "shellsort"};
 int fnsize = 7;
 
 int main(int argc, char **argv) 
 {
-  srand(time(NULL)); 
+  srand(time(0));  
+    
   for (int i = 0; i < fnsize; i++) {
-    test(fn[i]);
+    test(fn[i], names[i], 1, 1000, 100000);
   }
 }
 
 int sorted(int arr[], int len) 
 {
+  int pass = 0;
   for (int i = 0; i < len-1; i++) {
     if (arr[i] > arr[i+1])
-      return 1;
+      pass = 1;
   }
-  return 0;
+  return pass;
 }
 
-void test(void *(sort)(int[],int))
+void test(void *(sort)(int[],int), char *name, 
+          int counter, int range, int size)
 {
+  clock_t begin = clock();
+  
   int passed = 0;
-  int failed = 0;
-  for (int z = 0; z < 10000; z++) {
-    int len = 100;
-    int arr[len];
+  for (int z = 0; z < counter; z++) {
+    int arr[size];
 
-    for (int i = 0; i < len; i++) {
-      arr[i] = rand() % 1000;
+    for (int i = 0; i < size; i++) {
+      arr[i] = rand() % range;
     }
 
-    sort(arr, len);
-    int res = sorted(arr, len);
+    sort(arr, size);
+
+    int res = sorted(arr, size);
     if (res == 0)
       passed++;
-    else
-      failed++;
-    if (z == 99) {
-      for (int i = 0; i < len; i++) {
-        printf("%d ", arr[i]);
-      }
-      printf("\n");
-    }
   }
-  printf("Passed = %d Failed = %d\n", passed, failed);
+  
+  clock_t end = clock();
+  double time_spent = (double)(end-begin) / CLOCKS_PER_SEC;
+  int percent = (int)((passed/(double)counter) * 100);
+
+  printf("%s, ", name);
+  printf("Passed = %d%% Size = %d Time = %f\n", percent, size, time_spent);
 }
 
