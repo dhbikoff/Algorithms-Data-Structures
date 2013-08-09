@@ -3,7 +3,7 @@
 #include <time.h>
 #include "bst.h"
 #include "queue.h"
-#include "radixsort.h"
+#include "quicksort.h"
 
 int test(int len, int range)
 {
@@ -18,7 +18,7 @@ int test(int len, int range)
   }
 
   BSTQueue(b, q);
-  sort(arr, len);
+  qusort(arr, len);
   int passed = 1;
   for (int i = 0; i < len; i++) {
     if (QueueRemove(q) != arr[i])
