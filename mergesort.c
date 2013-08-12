@@ -1,11 +1,11 @@
+#include <stdlib.h>
+#include "string.h"
 #include "mergesort.h"
 
 void merge(int arr[], int aux[], int lo, int mid, int hi) 
 {
   // copy arr to aux
-  for (int i = 0; i <= hi; i++) {
-    aux[i] = arr[i];
-  }
+  memcpy(aux, arr, sizeof(int)*(hi+1));
 
   // merge back to arr
   int i = lo;
@@ -21,7 +21,7 @@ void merge(int arr[], int aux[], int lo, int mid, int hi)
 void msortHelper(int arr[], int aux[], int lo, int hi)
 {
   if (hi <= lo) return;
-  int mid = lo + (hi-lo) / 2;
+  int mid = lo + (hi - lo) / 2;
   msortHelper(arr, aux, lo, mid);
   msortHelper(arr, aux, mid+1, hi);
   merge(arr, aux, lo, mid, hi);
@@ -29,6 +29,7 @@ void msortHelper(int arr[], int aux[], int lo, int hi)
 
 void msort(int arr[], int len) 
 {
-  int aux[len];
+  int *aux = malloc(sizeof(int)*len);
   msortHelper(arr, aux, 0, len-1);
+  free(aux);
 }

@@ -16,14 +16,18 @@ void test(void *(sort)(int[],int), char *name,
 void* fn[] = {qusort, msort, rsort, hsort, ssort, isort, shsort};
 char* names[] = {"quicksort", "mergesort", "radixsort", "heapsort",
                  "selectionsort", "insertionsort", "shellsort"};
+
 int fnsize = 7;
 
 int main(int argc, char **argv) 
 {
   srand(time(0));  
-    
+  int counter = 1;
+  int range = 1000;
+  int size = 100000;
+
   for (int i = 0; i < fnsize; i++) {
-    test(fn[i], names[i], 1, 1000, 100000);
+    test(fn[i], names[i], counter, range, size);
   }
 }
 
