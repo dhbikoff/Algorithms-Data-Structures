@@ -69,6 +69,19 @@ int BSTMinrec(BSTnode *n)
   else return BSTMinrec(n->left);
 }
 
+int BSTSearchHelper(BSTnode *n, int key)
+{
+  if (n == 0) return 0;
+  if (n->val == key) return 1;
+  else if (n->val < key) return BSTSearchHelper(n->left, key);
+  else return BSTSearchHelper(n->right, key);
+}
+
+int BSTSearch(bst *b, int key)
+{
+  return BSTSearchHelper(b->root, key);
+}
+
 int BSTMin(bst *b)
 {
   return BSTMinrec(b->root);

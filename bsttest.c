@@ -10,12 +10,18 @@ int test(int len, int range)
   queue *q = QueueNew();
   bst *b = BST();
 
+  int search;
   int arr[len];
   for (int i = 0; i < len; i++) {
     int n = rand() % range;
     arr[i] = n;
+    if (i == 0) search = n;
     BSTPut(b,n);
   }
+
+  int found = BSTSearch(b,search);
+  if (found) printf("Found %d!\n", search);
+  else printf("%d Not Found!\n", search);
 
   BSTQueue(b, q);
   qusort(arr, len);
